@@ -14,6 +14,7 @@ OUTPUT_FORMAT_TEXT = "text"
 OUTPUT_FORMAT_CSV = "csv"
 OUTPUT_FORMAT_JSON = "json"
 OUTPUT_FORMATS = [
+    OUTPUT_FORMAT_TEXT,
     OUTPUT_FORMAT_CSV,
     OUTPUT_FORMAT_JSON,
 ]
@@ -24,7 +25,7 @@ class LabelDistributionWriter(StreamWriter):
     Collects the labels and outputs their distribution.
     """
 
-    def __init__(self, output_file: str = None, output_format: str = None,
+    def __init__(self, output_file: str = None, output_format: str = OUTPUT_FORMAT_TEXT,
                  label_key: str = "type", percentages: bool = False,
                  logger_name: str = None, logging_level: str = LOGGING_WARNING):
         """

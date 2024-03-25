@@ -8,7 +8,7 @@ from typing import List, Dict
 from wai.logging import LOGGING_WARNING
 
 from idc.api import ImageClassificationData, ObjectDetectionData, ImageSegmentationData, StreamWriter, \
-    make_list
+    make_list, LABEL_KEY
 
 OUTPUT_FORMAT_TEXT = "text"
 OUTPUT_FORMAT_CSV = "csv"
@@ -26,7 +26,7 @@ class LabelDistributionWriter(StreamWriter):
     """
 
     def __init__(self, output_file: str = None, output_format: str = OUTPUT_FORMAT_TEXT,
-                 label_key: str = "type", percentages: bool = False,
+                 label_key: str = LABEL_KEY, percentages: bool = False,
                  logger_name: str = None, logging_level: str = LOGGING_WARNING):
         """
         Initializes the reader.
@@ -113,7 +113,7 @@ class LabelDistributionWriter(StreamWriter):
         if self.output_format is None:
             raise Exception("No output format defined!")
         if (self.label_key is None) or (self.label_key == ""):
-            self.label_key = "type"
+            self.label_key = LABEL_KEY
         if self.percentages is None:
             self.percentages = False
         self._labels = dict()

@@ -79,7 +79,7 @@ class LabelDistributionWriter(StreamWriter):
         parser = super()._create_argparser()
         parser.add_argument("-o", "--output_file", type=str, help="The file to write the statistics to; uses stdout if omitted.", required=False, default=None)
         parser.add_argument("-f", "--output_format", type=str, help="The format to use for the output, available formats: %s" % ", ".join(OUTPUT_FORMATS), required=False, default=OUTPUT_FORMAT_TEXT)
-        parser.add_argument("-k", "--label_key", type=str, help="The key in the (object detection) meta-data that contains the label.", required=False, default="type")
+        parser.add_argument("-k", "--label_key", type=str, help="The key in the (object detection) meta-data that contains the label.", required=False, default=LABEL_KEY)
         parser.add_argument("-p", "--percentages", action="store_true", help="Whether to output percentages instead of counts.", required=False)
         return parser
 

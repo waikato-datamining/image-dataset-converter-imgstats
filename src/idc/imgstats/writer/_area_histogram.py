@@ -317,9 +317,8 @@ class AreaHistogramWriter(StreamWriter):
                     else:
                         self.append_value(label, area)
             elif isinstance(item, ImageSegmentationData):
-                label_images = item.annotation.label_images
-                for label in label_images:
-                    area = np.count_nonzero(label_images[label])
+                for label in item.annotation.layers:
+                    area = np.count_nonzero(item.annotation.layers[label])
                     if self.normalized:
                         self.append_value(label, area / img_area)
                     else:

@@ -38,8 +38,8 @@ setup(
     author='Peter Reutemann',
     author_email='fracpete@waikato.ac.nz',
     entry_points={
-        "idc.writers": [
-            "idc_imgstats_writers1=idc.imgstats.writer:seppl.io.Writer",
-        ]
+        "class_lister": [
+            "idc.imgstats=idc.imgstats.class_lister",
+        ],
     },
 )

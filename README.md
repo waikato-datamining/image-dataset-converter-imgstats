@@ -1,5 +1,5 @@
 # image-dataset-converter-imgstats
-Image statistics extension for the image-dataset-converter.
+Image statistics extension for the [image-dataset-converter](https://github.com/waikato-datamining/image-dataset-converter) library.
 
 
 ## Installation

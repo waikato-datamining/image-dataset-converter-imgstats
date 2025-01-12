@@ -7,7 +7,7 @@ Image statistics extension for the [image-dataset-converter](https://github.com/
 Via PyPI:
 
 ```bash
-pip install image-dataset-converter-imgstats
+pip install image_dataset_converter_imgstats
 ```
 
 The latest code straight from the repository:

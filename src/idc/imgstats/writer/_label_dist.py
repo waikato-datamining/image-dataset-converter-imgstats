@@ -7,7 +7,7 @@ from typing import List, Dict
 
 from wai.logging import LOGGING_WARNING
 
-from seppl import PlaceholderSupporter, placeholder_list
+from seppl.placeholders import PlaceholderSupporter, placeholder_list
 from idc.api import ImageClassificationData, ObjectDetectionData, ImageSegmentationData, StreamWriter, \
     make_list, LABEL_KEY
 

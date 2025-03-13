@@ -7,7 +7,7 @@ from typing import List, Dict
 
 from wai.logging import LOGGING_WARNING
 
-from seppl.placeholders import PlaceholderSupporter, placeholder_list
+from seppl.placeholders import PlaceholderSupporter, placeholder_list, expand_placeholders
 from idc.api import ImageClassificationData, ObjectDetectionData, ImageSegmentationData, StreamWriter, \
     make_list, LABEL_KEY
 
@@ -146,7 +146,7 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
                 else:
                     print("%s: %d" % (k, dist[k]))
         else:
-            with open(self.session.expand_placeholders(self.output_file), "w") as f:
+            with open(expand_placeholders(self.output_file), "w") as f:
                 for k in keys:
                     if self.percentages:
                         f.write("%s: %f" % (k, dist[k]))
@@ -169,7 +169,7 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
             writer = csv.writer(sys.stdout)
             f = None
         else:
-            f = open(self.session.expand_placeholders(self.output_file), "w")
+            f = open(expand_placeholders(self.output_file), "w")
             writer = csv.writer(f)
 
         writer.writerow(["Label", "Percent" if self.percentages else "Count"])
@@ -191,7 +191,7 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
         if use_stdout:
             print(json.dumps(dist, indent=2))
         else:
-            with open(self.session.expand_placeholders(self.output_file), "w") as f:
+            with open(expand_placeholders(self.output_file), "w") as f:
                 json.dump(dist, f, indent=2)
 
     def output_label_distribution(self):

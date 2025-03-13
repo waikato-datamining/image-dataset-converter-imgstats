@@ -9,7 +9,7 @@ from typing import List, Dict
 
 from wai.logging import LOGGING_WARNING
 
-from seppl.placeholders import PlaceholderSupporter, placeholder_list
+from seppl.placeholders import PlaceholderSupporter, placeholder_list, expand_placeholders
 from idc.api import ObjectDetectionData, ImageSegmentationData, StreamWriter, \
     make_list, LABEL_KEY
 
@@ -200,7 +200,7 @@ class AreaHistogramWriter(StreamWriter, PlaceholderSupporter):
         if use_stdout:
             print(plots)
         else:
-            with open(self.session.expand_placeholders(self.output_file), "w") as fp:
+            with open(expand_placeholders(self.output_file), "w") as fp:
                 fp.write(plots)
 
     def output_csv(self, histograms: Dict, keys: List[str], use_stdout: bool):
@@ -218,7 +218,7 @@ class AreaHistogramWriter(StreamWriter, PlaceholderSupporter):
             writer = csv.writer(sys.stdout)
             f = None
         else:
-            f = open(self.session.expand_placeholders(self.output_file), "w")
+            f = open(expand_placeholders(self.output_file), "w")
             writer = csv.writer(f)
 
         writer.writerow(["label", "bin", "from", "to", "count"])
@@ -267,7 +267,7 @@ class AreaHistogramWriter(StreamWriter, PlaceholderSupporter):
         if use_stdout:
             print(json.dumps(data, indent=2))
         else:
-            with open(self.session.expand_placeholders(self.output_file), "w") as f:
+            with open(expand_placeholders(self.output_file), "w") as f:
                 json.dump(data, f, indent=2)
 
     def output_histograms(self):

@@ -7,6 +7,7 @@ from typing import List, Dict
 
 from wai.logging import LOGGING_WARNING
 
+from seppl import PlaceholderSupporter, placeholder_list
 from idc.api import ImageClassificationData, ObjectDetectionData, ImageSegmentationData, StreamWriter, \
     make_list, LABEL_KEY
 
@@ -20,7 +21,7 @@ OUTPUT_FORMATS = [
 ]
 
 
-class LabelDistributionWriter(StreamWriter):
+class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
     """
     Collects the labels and outputs their distribution.
     """
@@ -77,7 +78,7 @@ class LabelDistributionWriter(StreamWriter):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-o", "--output_file", type=str, help="The file to write the statistics to; uses stdout if omitted.", required=False, default=None)
+        parser.add_argument("-o", "--output_file", type=str, help="The file to write the statistics to; uses stdout if omitted. " + placeholder_list(obj=self), required=False, default=None)
         parser.add_argument("-f", "--output_format", type=str, help="The format to use for the output, available formats: %s" % ", ".join(OUTPUT_FORMATS), required=False, default=OUTPUT_FORMAT_TEXT)
         parser.add_argument("-k", "--label_key", type=str, help="The key in the (object detection) meta-data that contains the label.", required=False, default=LABEL_KEY)
         parser.add_argument("-p", "--percentages", action="store_true", help="Whether to output percentages instead of counts.", required=False)
@@ -145,7 +146,7 @@ class LabelDistributionWriter(StreamWriter):
                 else:
                     print("%s: %d" % (k, dist[k]))
         else:
-            with open(self.output_file, "w") as f:
+            with open(self.session.expand_placeholders(self.output_file), "w") as f:
                 for k in keys:
                     if self.percentages:
                         f.write("%s: %f" % (k, dist[k]))
@@ -168,7 +169,7 @@ class LabelDistributionWriter(StreamWriter):
             writer = csv.writer(sys.stdout)
             f = None
         else:
-            f = open(self.output_file, "w")
+            f = open(self.session.expand_placeholders(self.output_file), "w")
             writer = csv.writer(f)
 
         writer.writerow(["Label", "Percent" if self.percentages else "Count"])
@@ -190,7 +191,7 @@ class LabelDistributionWriter(StreamWriter):
         if use_stdout:
             print(json.dumps(dist, indent=2))
         else:
-            with open(self.output_file, "w") as f:
+            with open(self.session.expand_placeholders(self.output_file), "w") as f:
                 json.dump(dist, f, indent=2)
 
     def output_label_distribution(self):

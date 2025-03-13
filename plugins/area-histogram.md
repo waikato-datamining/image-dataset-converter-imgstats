@@ -21,7 +21,8 @@ options:
                         name by default (default: None)
   -o OUTPUT_FILE, --output_file OUTPUT_FILE
                         The file to write the statistics to; uses stdout if
-                        omitted. (default: None)
+                        omitted. Supported placeholders: {HOME}, {CWD}, {TMP}
+                        (default: None)
   -f OUTPUT_FORMAT, --output_format OUTPUT_FORMAT
                         The format to use for the output, available modes:
                         text, csv, json (default: text)
@@ -40,3 +41,9 @@ options:
                         The label to use for all the labels combined.
                         (default: ALL)
 ```
+
+Available placeholders:
+
+* `{HOME}`: The home directory of the current user.
+* `{CWD}`: The current working directory.
+* `{TMP}`: The temp directory.

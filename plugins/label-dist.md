@@ -6,8 +6,8 @@ Collects the labels and outputs their distribution.
 
 ```
 usage: label-dist [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
-                  [-N LOGGER_NAME] [-o OUTPUT_FILE] [-f OUTPUT_FORMAT]
-                  [-k LABEL_KEY] [-p]
+                  [-N LOGGER_NAME] [--skip] [-o OUTPUT_FILE]
+                  [-f OUTPUT_FORMAT] [-k LABEL_KEY] [-p]
 
 Collects the labels and outputs their distribution.
 
@@ -18,6 +18,8 @@ options:
   -N LOGGER_NAME, --logger_name LOGGER_NAME
                         The custom name to use for the logger, uses the plugin
                         name by default (default: None)
+  --skip                Disables the plugin, removing it from the pipeline.
+                        (default: False)
   -o OUTPUT_FILE, --output_file OUTPUT_FILE
                         The file to write the statistics to; uses stdout if
                         omitted. Supported placeholders: {HOME}, {CWD}, {TMP}

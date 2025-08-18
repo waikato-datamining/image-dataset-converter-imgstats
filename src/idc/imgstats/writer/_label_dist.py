@@ -8,8 +8,8 @@ from typing import List, Dict
 from wai.logging import LOGGING_WARNING
 
 from seppl.placeholders import PlaceholderSupporter, placeholder_list, expand_placeholders
-from idc.api import ImageClassificationData, ObjectDetectionData, ImageSegmentationData, StreamWriter, \
-    make_list, LABEL_KEY
+from kasperl.api import make_list, StreamWriter
+from idc.api import ImageClassificationData, ObjectDetectionData, ImageSegmentationData, LABEL_KEY
 
 OUTPUT_FORMAT_TEXT = "text"
 OUTPUT_FORMAT_CSV = "csv"

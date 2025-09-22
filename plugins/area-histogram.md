@@ -29,7 +29,7 @@ options:
                         {INPUT_EXT}, {INPUT_PARENT_PATH}, {INPUT_PARENT_NAME}
                         (default: None)
   -f OUTPUT_FORMAT, --output_format OUTPUT_FORMAT
-                        The format to use for the output, available modes:
+                        The format to use for the output, available formats:
                         text, csv, json (default: text)
   -k LABEL_KEY, --label_key LABEL_KEY
                         The key in the (object detection) meta-data that

@@ -91,7 +91,7 @@ class AreaHistogramWriter(StreamWriter, PlaceholderSupporter):
         """
         parser = super()._create_argparser()
         parser.add_argument("-o", "--output_file", type=str, help="The file to write the statistics to; uses stdout if omitted. " + placeholder_list(obj=self), required=False, default=None)
-        parser.add_argument("-f", "--output_format", type=str, help="The format to use for the output, available modes: %s" % ", ".join(OUTPUT_FORMATS), required=False, default=OUTPUT_FORMAT_TEXT)
+        parser.add_argument("-f", "--output_format", type=str, help="The format to use for the output, available formats: %s" % ", ".join(OUTPUT_FORMATS), required=False, default=OUTPUT_FORMAT_TEXT)
         parser.add_argument("-k", "--label_key", type=str, help="The key in the (object detection) meta-data that contains the label.", required=False, default=LABEL_KEY)
         parser.add_argument("-B", "--num_bins", type=int, help="The number of bins to use for the histogram.", required=False, default=20)
         parser.add_argument("-b", "--force_bbox", action="store_true", help="Whether to use the bounding box even if a polygon is present (object detection domain only)", required=False)

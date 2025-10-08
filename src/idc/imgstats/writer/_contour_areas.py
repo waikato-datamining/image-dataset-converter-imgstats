@@ -120,7 +120,7 @@ class ContourAreasWriter(ImageAndAnnotationWriter, PlaceholderSupporter):
         if self.invert is None:
             self.invert = False
         if self.output_format is None:
-            raise Exception("No output format defined!")
+            self.output_format = OUTPUT_FORMAT_CSV
         self._areas = dict()
 
     def output_csv(self, use_stdout: bool):

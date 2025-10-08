@@ -112,7 +112,7 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
         """
         super().initialize()
         if self.output_format is None:
-            raise Exception("No output format defined!")
+            self.output_format = OUTPUT_FORMAT_TEXT
         if (self.label_key is None) or (self.label_key == ""):
             self.label_key = LABEL_KEY
         if self.percentages is None:

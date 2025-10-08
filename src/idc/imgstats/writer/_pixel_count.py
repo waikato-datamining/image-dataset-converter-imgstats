@@ -106,7 +106,7 @@ class PixelCountWriter(StreamWriter, PlaceholderSupporter):
         """
         super().initialize()
         if self.output_format is None:
-            raise Exception("No output format defined!")
+            self.output_format = OUTPUT_FORMAT_TEXT
         if self.labels is None:
             raise Exception("No labels specified!")
         self._counts = []

@@ -7,7 +7,6 @@ from typing import List
 import numpy as np
 from wai.logging import LOGGING_WARNING
 
-from build.lib.kasperl.api import safe_deepcopy
 from idc.api import ImageSegmentationData
 from kasperl.api import make_list, StreamWriter
 from seppl.placeholders import PlaceholderSupporter, placeholder_list, expand_placeholders

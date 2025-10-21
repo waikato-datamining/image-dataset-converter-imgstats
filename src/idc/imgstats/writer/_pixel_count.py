@@ -151,7 +151,9 @@ class PixelCountWriter(StreamWriter, PlaceholderSupporter):
                         print("%s  %s: %d (%f%%)" % (indent, label, count["labels"][label]["count"], count["labels"][label]["percentage"]))
                 print()
         else:
-            with open(expand_placeholders(self.output_file), "w") as fp:
+            path = expand_placeholders(self.output_file)
+            self.logger().info("Writing pixel count to: %s" % path)
+            with open(path, "w") as fp:
                 for count in self._counts:
                     if not self.suppress_path:
                         fp.write("%s\n" % count["path"])
@@ -175,6 +177,8 @@ class PixelCountWriter(StreamWriter, PlaceholderSupporter):
             writer = csv.writer(sys.stdout)
             fp = None
         else:
+            path = expand_placeholders(self.output_file)
+            self.logger().info("Writing pixel count to: %s" % path)
             fp = open(expand_placeholders(self.output_file), "w")
             writer = csv.writer(fp)
 
@@ -216,7 +220,9 @@ class PixelCountWriter(StreamWriter, PlaceholderSupporter):
         if use_stdout:
             print(json.dumps(self._counts, indent=2))
         else:
-            with open(expand_placeholders(self.output_file), "w") as fp:
+            path = expand_placeholders(self.output_file)
+            self.logger().info("Writing pixel count to: %s" % path)
+            with open(path, "w") as fp:
                 json.dump(self._counts, fp, indent=2)
 
     def output_label_distribution(self):
@@ -256,6 +262,11 @@ class PixelCountWriter(StreamWriter, PlaceholderSupporter):
                     stats["labels"][label] = {
                         "count": count,
                         "percentage": count / total * 100.0
+                    }
+                else:
+                    stats["labels"][label] = {
+                        "count": 0,
+                        "percentage": 0.0
                     }
             self._counts.append(stats)
             if self.per_image:

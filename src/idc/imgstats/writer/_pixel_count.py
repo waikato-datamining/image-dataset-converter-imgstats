@@ -179,7 +179,7 @@ class PixelCountWriter(StreamWriter, PlaceholderSupporter):
         else:
             path = expand_placeholders(self.output_file)
             self.logger().info("Writing pixel count to: %s" % path)
-            fp = open(expand_placeholders(self.output_file), "w")
+            fp = open(path, "w")
             writer = csv.writer(fp)
 
         # header

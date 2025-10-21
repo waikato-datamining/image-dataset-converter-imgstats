@@ -8,6 +8,7 @@ Counts the pixels per label per image.
 usage: pixel-count [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                    [-N LOGGER_NAME] [--skip] [-o OUTPUT_FILE]
                    [-f OUTPUT_FORMAT] --labels LABELS [LABELS ...]
+                   [--per_image] [--suppress_path]
 
 Counts the pixels per label per image.
 
@@ -32,6 +33,10 @@ options:
   --labels LABELS [LABELS ...]
                         The labels to calculate the pixel count for. (default:
                         None)
+  --per_image           Whether to output the statistics per image rather than
+                        for the complete run. (default: False)
+  --suppress_path       Whether to suppress the path in the output. (default:
+                        False)
 ```
 
 Available placeholders:

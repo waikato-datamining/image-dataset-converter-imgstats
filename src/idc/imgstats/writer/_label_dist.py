@@ -230,7 +230,7 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
         """
         for item in make_list(data):
             if isinstance(item, ImageClassificationData):
-                self.add_label(item.annotation.label)
+                self.add_label(item.annotation)
             elif isinstance(item, ObjectDetectionData):
                 for obj in item.annotation:
                     if self.label_key in obj.metadata:

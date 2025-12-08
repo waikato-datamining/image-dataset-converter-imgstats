@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.1.1 (????-??-??)
+------------------
+
+- fixed handling of image classification data in `label-dist`
+
+
 0.1.0 (2025-10-31)
 ------------------
 

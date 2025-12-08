@@ -7,7 +7,8 @@ Collects the labels and outputs their distribution.
 ```
 usage: label-dist [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                   [-N LOGGER_NAME] [--skip] [-o OUTPUT_FILE]
-                  [-f OUTPUT_FORMAT] [-k LABEL_KEY] [-p]
+                  [-f {text,csv,json}] [-t {counts,percentages}]
+                  [-k LABEL_KEY]
 
 Collects the labels and outputs their distribution.
 
@@ -24,14 +25,13 @@ options:
                         The file to write the statistics to; uses stdout if
                         omitted. Supported placeholders: {HOME}, {CWD}, {TMP}
                         (default: None)
-  -f OUTPUT_FORMAT, --output_format OUTPUT_FORMAT
-                        The format to use for the output, available formats:
-                        text, csv, json (default: text)
+  -f {text,csv,json}, --output_format {text,csv,json}
+                        The format to use for the output. (default: text)
+  -t {counts,percentages}, --output_type {counts,percentages}
+                        How to output the distribution. (default: counts)
   -k LABEL_KEY, --label_key LABEL_KEY
                         The key in the (object detection) meta-data that
                         contains the label. (default: type)
-  -p, --percentages     Whether to output percentages instead of counts.
-                        (default: False)
 ```
 
 Available placeholders:

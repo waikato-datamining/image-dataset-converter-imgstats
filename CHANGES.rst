@@ -4,7 +4,8 @@ Changelog
 0.1.1 (????-??-??)
 ------------------
 
-- fixed handling of image classification data in `label-dist`
+- fixed handling of image classification data in `label-dist`, introduced the `-t/--output_type`
+  output, which supersedes `-p/--percentages`
 
 
 0.1.0 (2025-10-31)

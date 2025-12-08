@@ -20,6 +20,13 @@ OUTPUT_FORMATS = [
     OUTPUT_FORMAT_JSON,
 ]
 
+OUTPUT_TYPE_COUNTS = "counts"
+OUTPUT_TYPE_PERCENTAGES = "percentages"
+OUTPUT_TYPES = [
+    OUTPUT_TYPE_COUNTS,
+    OUTPUT_TYPE_PERCENTAGES,
+]
+
 
 class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
     """
@@ -27,7 +34,7 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
     """
 
     def __init__(self, output_file: str = None, output_format: str = OUTPUT_FORMAT_TEXT,
-                 label_key: str = LABEL_KEY, percentages: bool = False,
+                 label_key: str = LABEL_KEY, output_type: str = None,
                  logger_name: str = None, logging_level: str = LOGGING_WARNING):
         """
         Initializes the reader.
@@ -38,8 +45,8 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
         :type output_format: str
         :param label_key: the key in the object detection metadata that contains the label
         :type label_key: str
-        :param percentages: whether to output percentages or absolute counts
-        :type percentages: bool
+        :param output_type: how to output the distribution
+        :type output_type: str
         :param logger_name: the name to use for the logger
         :type logger_name: str
         :param logging_level: the logging level to use
@@ -49,7 +56,7 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
         self.output_file = output_file
         self.output_format = output_format
         self.label_key = label_key
-        self.percentages = percentages
+        self.output_type = output_type
         self._labels = None
 
     def name(self) -> str:
@@ -79,9 +86,9 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
         """
         parser = super()._create_argparser()
         parser.add_argument("-o", "--output_file", type=str, help="The file to write the statistics to; uses stdout if omitted. " + placeholder_list(obj=self), required=False, default=None)
-        parser.add_argument("-f", "--output_format", type=str, help="The format to use for the output, available formats: %s" % ", ".join(OUTPUT_FORMATS), required=False, default=OUTPUT_FORMAT_TEXT)
+        parser.add_argument("-f", "--output_format", choices=OUTPUT_FORMATS, help="The format to use for the output.", required=False, default=OUTPUT_FORMAT_TEXT)
+        parser.add_argument("-t", "--output_type", choices=OUTPUT_TYPES, help="How to output the distribution.", required=False, default=OUTPUT_TYPE_COUNTS)
         parser.add_argument("-k", "--label_key", type=str, help="The key in the (object detection) meta-data that contains the label.", required=False, default=LABEL_KEY)
-        parser.add_argument("-p", "--percentages", action="store_true", help="Whether to output percentages instead of counts.", required=False)
         return parser
 
     def _apply_args(self, ns: argparse.Namespace):
@@ -94,8 +101,8 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
         super()._apply_args(ns)
         self.output_file = ns.output_file
         self.output_format = ns.output_format
+        self.output_type = ns.output_type
         self.label_key = ns.label_key
-        self.percentages = ns.percentages
 
     def accepts(self) -> List:
         """
@@ -115,8 +122,8 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
             self.output_format = OUTPUT_FORMAT_TEXT
         if (self.label_key is None) or (self.label_key == ""):
             self.label_key = LABEL_KEY
-        if self.percentages is None:
-            self.percentages = False
+        if self.output_type is None:
+            self.output_type = OUTPUT_TYPE_COUNTS
         self._labels = dict()
 
     def add_label(self, label: str):
@@ -141,14 +148,14 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
         """
         if use_stdout:
             for k in keys:
-                if self.percentages:
+                if self.output_type:
                     print("%s: %f" % (k, dist[k]))
                 else:
                     print("%s: %d" % (k, dist[k]))
         else:
             with open(expand_placeholders(self.output_file), "w") as f:
                 for k in keys:
-                    if self.percentages:
+                    if self.output_type:
                         f.write("%s: %f" % (k, dist[k]))
                     else:
                         f.write("%s: %d" % (k, dist[k]))
@@ -172,7 +179,7 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
             f = open(expand_placeholders(self.output_file), "w")
             writer = csv.writer(f)
 
-        writer.writerow(["Label", "Percent" if self.percentages else "Count"])
+        writer.writerow(["Label", "Percent" if self.output_type else "Count"])
         for k in keys:
             writer.writerow([k, dist[k]])
 
@@ -204,7 +211,7 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
         for k in keys:
             dist[k] = self._labels[k]
 
-        if self.percentages:
+        if self.output_type == OUTPUT_TYPE_PERCENTAGES:
             total = 0
             for k in dist:
                 total += dist[k]

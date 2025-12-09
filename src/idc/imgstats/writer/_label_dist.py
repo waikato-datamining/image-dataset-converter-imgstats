@@ -22,9 +22,11 @@ OUTPUT_FORMATS = [
 
 OUTPUT_TYPE_COUNTS = "counts"
 OUTPUT_TYPE_PERCENTAGES = "percentages"
+OUTPUT_TYPE_LABEL_BALANCE_CORRECTION = "label-balance-correction"
 OUTPUT_TYPES = [
     OUTPUT_TYPE_COUNTS,
     OUTPUT_TYPE_PERCENTAGES,
+    OUTPUT_TYPE_LABEL_BALANCE_CORRECTION,
 ]
 
 
@@ -87,7 +89,7 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
         parser = super()._create_argparser()
         parser.add_argument("-o", "--output_file", type=str, help="The file to write the statistics to; uses stdout if omitted. " + placeholder_list(obj=self), required=False, default=None)
         parser.add_argument("-f", "--output_format", choices=OUTPUT_FORMATS, help="The format to use for the output.", required=False, default=OUTPUT_FORMAT_TEXT)
-        parser.add_argument("-t", "--output_type", choices=OUTPUT_TYPES, help="How to output the distribution.", required=False, default=OUTPUT_TYPE_COUNTS)
+        parser.add_argument("-t", "--output_type", choices=OUTPUT_TYPES, help="How to output the distribution. " + OUTPUT_TYPE_LABEL_BALANCE_CORRECTION + " outputs factors (0-1) for achieving a balanced class distribution.", required=False, default=OUTPUT_TYPE_COUNTS)
         parser.add_argument("-k", "--label_key", type=str, help="The key in the (object detection) meta-data that contains the label.", required=False, default=LABEL_KEY)
         return parser
 
@@ -217,6 +219,15 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
                 total += dist[k]
             for k in dist:
                 dist[k] = dist[k] / total * 100.0
+        elif self.output_type == OUTPUT_TYPE_LABEL_BALANCE_CORRECTION:
+            lowest = None
+            for k in dist:
+                if lowest is None:
+                    lowest = dist[k]
+                else:
+                    lowest = min(lowest, dist[k])
+            for k in dist:
+                dist[k] = lowest / dist[k]
 
         use_stdout = (self.output_file is None) or (len(self.output_file) == 0)
 

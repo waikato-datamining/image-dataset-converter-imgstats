@@ -5,7 +5,11 @@ Changelog
 ------------------
 
 - fixed handling of image classification data in `label-dist`, introduced the `-t/--output_type`
-  output, which supersedes `-p/--percentages`
+  output, which supersedes `-p/--percentages`, output type `label-balance-correction` outputs
+  probability corrections for balancing the labels with the `balance-labels` filter
+- added the `balance-labels` filter for balancing label distributions for image classification,
+  drops an image if randomly generated number (0-1) is above the probability for its label
+  (0: discard, 1: keep)
 
 
 0.1.0 (2025-10-31)

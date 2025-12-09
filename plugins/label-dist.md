@@ -7,7 +7,8 @@ Collects the labels and outputs their distribution.
 ```
 usage: label-dist [-h] [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
                   [-N LOGGER_NAME] [--skip] [-o OUTPUT_FILE]
-                  [-f {text,csv,json}] [-t {counts,percentages}]
+                  [-f {text,csv,json}]
+                  [-t {counts,percentages,label-balance-correction}]
                   [-k LABEL_KEY]
 
 Collects the labels and outputs their distribution.
@@ -27,8 +28,10 @@ options:
                         (default: None)
   -f {text,csv,json}, --output_format {text,csv,json}
                         The format to use for the output. (default: text)
-  -t {counts,percentages}, --output_type {counts,percentages}
-                        How to output the distribution. (default: counts)
+  -t {counts,percentages,label-balance-correction}, --output_type {counts,percentages,label-balance-correction}
+                        How to output the distribution. label-balance-
+                        correction outputs factors (0-1) for achieving a
+                        balanced class distribution. (default: counts)
   -k LABEL_KEY, --label_key LABEL_KEY
                         The key in the (object detection) meta-data that
                         contains the label. (default: type)

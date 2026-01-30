@@ -9,7 +9,7 @@ from wai.logging import LOGGING_WARNING
 
 from idc.api import ImageSegmentationData
 from kasperl.api import make_list, StreamWriter
-from seppl.placeholders import PlaceholderSupporter, placeholder_list, expand_placeholders
+from seppl.placeholders import PlaceholderSupporter, placeholder_list
 
 OUTPUT_FORMAT_TEXT = "text"
 OUTPUT_FORMAT_CSV = "csv"
@@ -150,7 +150,7 @@ class PixelCountWriter(StreamWriter, PlaceholderSupporter):
                         print("%s  %s: %d (%f%%)" % (indent, label, count["labels"][label]["count"], count["labels"][label]["percentage"]))
                 print()
         else:
-            path = expand_placeholders(self.output_file)
+            path = self.session.expand_placeholders(self.output_file)
             self.logger().info("Writing pixel count to: %s" % path)
             with open(path, "w") as fp:
                 for count in self._counts:
@@ -176,7 +176,7 @@ class PixelCountWriter(StreamWriter, PlaceholderSupporter):
             writer = csv.writer(sys.stdout)
             fp = None
         else:
-            path = expand_placeholders(self.output_file)
+            path = self.session.expand_placeholders(self.output_file)
             self.logger().info("Writing pixel count to: %s" % path)
             fp = open(path, "w")
             writer = csv.writer(fp)
@@ -219,7 +219,7 @@ class PixelCountWriter(StreamWriter, PlaceholderSupporter):
         if use_stdout:
             print(json.dumps(self._counts, indent=2))
         else:
-            path = expand_placeholders(self.output_file)
+            path = self.session.expand_placeholders(self.output_file)
             self.logger().info("Writing pixel count to: %s" % path)
             with open(path, "w") as fp:
                 json.dump(self._counts, fp, indent=2)

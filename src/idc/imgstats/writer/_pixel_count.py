@@ -9,7 +9,7 @@ from wai.logging import LOGGING_WARNING
 
 from idc.api import ImageSegmentationData
 from kasperl.api import make_list, StreamWriter
-from seppl.placeholders import PlaceholderSupporter, placeholder_list
+from seppl.placeholders import placeholder_list, InputBasedPlaceholderSupporter
 
 OUTPUT_FORMAT_TEXT = "text"
 OUTPUT_FORMAT_CSV = "csv"
@@ -21,7 +21,7 @@ OUTPUT_FORMATS = [
 ]
 
 
-class PixelCountWriter(StreamWriter, PlaceholderSupporter):
+class PixelCountWriter(StreamWriter, InputBasedPlaceholderSupporter):
     """
     Counts the pixels per label per image.
     """

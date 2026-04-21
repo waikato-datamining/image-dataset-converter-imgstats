@@ -11,6 +11,7 @@ Changelog
   drops an image if randomly generated number (0-1) is above the probability for its label
   (0: discard, 1: keep)
 - `pixel-count` now expands the placeholders used for output files correctly, taking the session into account
+- using `seppl.variables` now
 
 
 0.1.0 (2025-10-31)

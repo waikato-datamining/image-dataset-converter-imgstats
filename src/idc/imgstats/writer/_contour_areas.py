@@ -10,7 +10,7 @@ from wai.logging import LOGGING_WARNING
 
 from idc.api import ImageClassificationData, ObjectDetectionData, ImageSegmentationData, REQUIRED_FORMAT_BINARY
 from idc.writer import ImageAndAnnotationWriter
-from seppl.placeholders import PlaceholderSupporter, placeholder_list, expand_placeholders
+from seppl.variables import VariableSupporter, variable_list, expand_variables
 
 OUTPUT_FORMAT_CSV = "csv"
 OUTPUT_FORMAT_JSON = "json"
@@ -20,7 +20,7 @@ OUTPUT_FORMATS = [
 ]
 
 
-class ContourAreasWriter(ImageAndAnnotationWriter, PlaceholderSupporter):
+class ContourAreasWriter(ImageAndAnnotationWriter, VariableSupporter):
     """
     Records the areas of contours of objects.
     """
@@ -85,7 +85,7 @@ class ContourAreasWriter(ImageAndAnnotationWriter, PlaceholderSupporter):
         parser.add_argument("-m", "--min_area", type=float, help="The minimum area for the contours in order to record them.", default=None, required=False)
         parser.add_argument("-M", "--max_area", type=float, help="The maximum area for the contours in order to record them.", default=None, required=False)
         parser.add_argument("-i", "--invert", action="store_true", help="Whether to invert the binary image, i.e., looking for black specks rather than white ones.")
-        parser.add_argument("-o", "--output_file", type=str, help="The file to write the statistics to; uses stdout if omitted. " + placeholder_list(obj=self), required=False, default=None)
+        parser.add_argument("-o", "--output_file", type=str, help="The file to write the statistics to; uses stdout if omitted. " + variable_list(obj=self), required=False, default=None)
         parser.add_argument("-f", "--output_format", type=str, help="The format to use for the output, available formats: %s" % ", ".join(OUTPUT_FORMATS), required=False, default=OUTPUT_FORMAT_CSV)
         return parser
 
@@ -134,7 +134,7 @@ class ContourAreasWriter(ImageAndAnnotationWriter, PlaceholderSupporter):
             writer = csv.writer(sys.stdout)
             fp = None
         else:
-            fp = open(expand_placeholders(self.output_file), "w")
+            fp = open(expand_variables(self.output_file), "w")
             writer = csv.writer(fp)
 
         # header
@@ -161,7 +161,7 @@ class ContourAreasWriter(ImageAndAnnotationWriter, PlaceholderSupporter):
         if use_stdout:
             print(json.dumps(self._areas, indent=2))
         else:
-            with open(expand_placeholders(self.output_file), "w") as fp:
+            with open(expand_variables(self.output_file), "w") as fp:
                 json.dump(self._areas, fp, indent=2)
 
     def output_areas(self):

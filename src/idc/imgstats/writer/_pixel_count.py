@@ -9,7 +9,7 @@ from wai.logging import LOGGING_WARNING
 
 from idc.api import ImageSegmentationData
 from kasperl.api import make_list, StreamWriter
-from seppl.placeholders import placeholder_list, InputBasedPlaceholderSupporter
+from seppl.variables import InputBasedVariableSupporter, variable_list
 
 OUTPUT_FORMAT_TEXT = "text"
 OUTPUT_FORMAT_CSV = "csv"
@@ -21,7 +21,7 @@ OUTPUT_FORMATS = [
 ]
 
 
-class PixelCountWriter(StreamWriter, InputBasedPlaceholderSupporter):
+class PixelCountWriter(StreamWriter, InputBasedVariableSupporter):
     """
     Counts the pixels per label per image.
     """
@@ -81,7 +81,7 @@ class PixelCountWriter(StreamWriter, InputBasedPlaceholderSupporter):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-o", "--output_file", type=str, help="The file to write the statistics to; uses stdout if omitted. " + placeholder_list(obj=self), required=False, default=None)
+        parser.add_argument("-o", "--output_file", type=str, help="The file to write the statistics to; uses stdout if omitted. " + variable_list(obj=self), required=False, default=None)
         parser.add_argument("-f", "--output_format", type=str, help="The format to use for the output, available formats: %s" % ", ".join(OUTPUT_FORMATS), required=False, default=OUTPUT_FORMAT_TEXT)
         parser.add_argument("--labels", type=str, help="The labels to calculate the pixel count for.", required=True, default=None, nargs="+")
         parser.add_argument("--per_image", action="store_true", help="Whether to output the statistics per image rather than for the complete run.")
@@ -150,7 +150,7 @@ class PixelCountWriter(StreamWriter, InputBasedPlaceholderSupporter):
                         print("%s  %s: %d (%f%%)" % (indent, label, count["labels"][label]["count"], count["labels"][label]["percentage"]))
                 print()
         else:
-            path = self.session.expand_placeholders(self.output_file)
+            path = self.session.expand_variables(self.output_file)
             self.logger().info("Writing pixel count to: %s" % path)
             with open(path, "w") as fp:
                 for count in self._counts:
@@ -176,7 +176,7 @@ class PixelCountWriter(StreamWriter, InputBasedPlaceholderSupporter):
             writer = csv.writer(sys.stdout)
             fp = None
         else:
-            path = self.session.expand_placeholders(self.output_file)
+            path = self.session.expand_variables(self.output_file)
             self.logger().info("Writing pixel count to: %s" % path)
             fp = open(path, "w")
             writer = csv.writer(fp)
@@ -219,7 +219,7 @@ class PixelCountWriter(StreamWriter, InputBasedPlaceholderSupporter):
         if use_stdout:
             print(json.dumps(self._counts, indent=2))
         else:
-            path = self.session.expand_placeholders(self.output_file)
+            path = self.session.expand_variables(self.output_file)
             self.logger().info("Writing pixel count to: %s" % path)
             with open(path, "w") as fp:
                 json.dump(self._counts, fp, indent=2)

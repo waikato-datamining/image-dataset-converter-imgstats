@@ -36,14 +36,14 @@ options:
                         black specks rather than white ones. (default: False)
   -o OUTPUT_FILE, --output_file OUTPUT_FILE
                         The file to write the statistics to; uses stdout if
-                        omitted. Supported placeholders: {HOME}, {CWD}, {TMP}
+                        omitted. Supported variables: {HOME}, {CWD}, {TMP}
                         (default: None)
   -f OUTPUT_FORMAT, --output_format OUTPUT_FORMAT
                         The format to use for the output, available formats:
                         csv, json (default: csv)
 ```
 
-Available placeholders:
+Available variables:
 
 * `{HOME}`: The home directory of the current user.
 * `{CWD}`: The current working directory.

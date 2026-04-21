@@ -7,7 +7,7 @@ from typing import List, Dict
 
 from wai.logging import LOGGING_WARNING
 
-from seppl.placeholders import PlaceholderSupporter, placeholder_list, expand_placeholders
+from seppl.variables import VariableSupporter, variable_list, expand_variables
 from kasperl.api import make_list, StreamWriter
 from idc.api import ImageClassificationData, ObjectDetectionData, ImageSegmentationData, LABEL_KEY
 
@@ -30,7 +30,7 @@ OUTPUT_TYPES = [
 ]
 
 
-class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
+class LabelDistributionWriter(StreamWriter, VariableSupporter):
     """
     Collects the labels and outputs their distribution.
     """
@@ -87,7 +87,7 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-o", "--output_file", type=str, help="The file to write the statistics to; uses stdout if omitted. " + placeholder_list(obj=self), required=False, default=None)
+        parser.add_argument("-o", "--output_file", type=str, help="The file to write the statistics to; uses stdout if omitted. " + variable_list(obj=self), required=False, default=None)
         parser.add_argument("-f", "--output_format", choices=OUTPUT_FORMATS, help="The format to use for the output.", required=False, default=OUTPUT_FORMAT_TEXT)
         parser.add_argument("-t", "--output_type", choices=OUTPUT_TYPES, help="How to output the distribution. " + OUTPUT_TYPE_LABEL_BALANCE_CORRECTION + " outputs factors (0-1) for achieving a balanced class distribution.", required=False, default=OUTPUT_TYPE_COUNTS)
         parser.add_argument("-k", "--label_key", type=str, help="The key in the (object detection) meta-data that contains the label.", required=False, default=LABEL_KEY)
@@ -155,7 +155,7 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
                 else:
                     print("%s: %d" % (k, dist[k]))
         else:
-            with open(expand_placeholders(self.output_file), "w") as f:
+            with open(expand_variables(self.output_file), "w") as f:
                 for k in keys:
                     if self.output_type:
                         f.write("%s: %f" % (k, dist[k]))
@@ -178,7 +178,7 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
             writer = csv.writer(sys.stdout)
             f = None
         else:
-            f = open(expand_placeholders(self.output_file), "w")
+            f = open(expand_variables(self.output_file), "w")
             writer = csv.writer(f)
 
         writer.writerow(["Label", "Percent" if self.output_type else "Count"])
@@ -200,7 +200,7 @@ class LabelDistributionWriter(StreamWriter, PlaceholderSupporter):
         if use_stdout:
             print(json.dumps(dist, indent=2))
         else:
-            with open(expand_placeholders(self.output_file), "w") as f:
+            with open(expand_variables(self.output_file), "w") as f:
                 json.dump(dist, f, indent=2)
 
     def output_label_distribution(self):

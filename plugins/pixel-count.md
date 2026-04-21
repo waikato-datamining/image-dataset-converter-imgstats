@@ -23,7 +23,7 @@ options:
                         (default: False)
   -o OUTPUT_FILE, --output_file OUTPUT_FILE
                         The file to write the statistics to; uses stdout if
-                        omitted. Supported placeholders: {HOME}, {CWD}, {TMP},
+                        omitted. Supported variables: {HOME}, {CWD}, {TMP},
                         {INPUT_PATH}, {INPUT_NAMEEXT}, {INPUT_NAMENOEXT},
                         {INPUT_EXT}, {INPUT_PARENT_PATH}, {INPUT_PARENT_NAME}
                         (default: None)
@@ -39,7 +39,7 @@ options:
                         False)
 ```
 
-Available placeholders:
+Available variables:
 
 * `{HOME}`: The home directory of the current user.
 * `{CWD}`: The current working directory.

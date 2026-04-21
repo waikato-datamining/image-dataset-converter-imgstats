@@ -9,7 +9,7 @@ from typing import List, Dict
 
 from wai.logging import LOGGING_WARNING
 
-from seppl.placeholders import PlaceholderSupporter, placeholder_list, expand_placeholders
+from seppl.variables import VariableSupporter, variable_list, expand_variables
 from kasperl.api import make_list, StreamWriter
 from idc.api import ObjectDetectionData, ImageSegmentationData, LABEL_KEY
 
@@ -23,7 +23,7 @@ OUTPUT_FORMATS = [
 ]
 
 
-class AreaHistogramWriter(StreamWriter, PlaceholderSupporter):
+class AreaHistogramWriter(StreamWriter, VariableSupporter):
     """
     Collects the labels and outputs their distribution.
     """
@@ -90,7 +90,7 @@ class AreaHistogramWriter(StreamWriter, PlaceholderSupporter):
         :rtype: argparse.ArgumentParser
         """
         parser = super()._create_argparser()
-        parser.add_argument("-o", "--output_file", type=str, help="The file to write the statistics to; uses stdout if omitted. " + placeholder_list(obj=self), required=False, default=None)
+        parser.add_argument("-o", "--output_file", type=str, help="The file to write the statistics to; uses stdout if omitted. " + variable_list(obj=self), required=False, default=None)
         parser.add_argument("-f", "--output_format", type=str, help="The format to use for the output, available formats: %s" % ", ".join(OUTPUT_FORMATS), required=False, default=OUTPUT_FORMAT_TEXT)
         parser.add_argument("-k", "--label_key", type=str, help="The key in the (object detection) meta-data that contains the label.", required=False, default=LABEL_KEY)
         parser.add_argument("-B", "--num_bins", type=int, help="The number of bins to use for the histogram.", required=False, default=20)
@@ -200,7 +200,7 @@ class AreaHistogramWriter(StreamWriter, PlaceholderSupporter):
         if use_stdout:
             print(plots)
         else:
-            with open(expand_placeholders(self.output_file), "w") as fp:
+            with open(expand_variables(self.output_file), "w") as fp:
                 fp.write(plots)
 
     def output_csv(self, histograms: Dict, keys: List[str], use_stdout: bool):
@@ -218,7 +218,7 @@ class AreaHistogramWriter(StreamWriter, PlaceholderSupporter):
             writer = csv.writer(sys.stdout)
             f = None
         else:
-            f = open(expand_placeholders(self.output_file), "w")
+            f = open(expand_variables(self.output_file), "w")
             writer = csv.writer(f)
 
         writer.writerow(["label", "bin", "from", "to", "count"])
@@ -267,7 +267,7 @@ class AreaHistogramWriter(StreamWriter, PlaceholderSupporter):
         if use_stdout:
             print(json.dumps(data, indent=2))
         else:
-            with open(expand_placeholders(self.output_file), "w") as f:
+            with open(expand_variables(self.output_file), "w") as f:
                 json.dump(data, f, indent=2)
 
     def output_histograms(self):

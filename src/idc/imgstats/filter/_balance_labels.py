@@ -113,7 +113,7 @@ class BalanceImageClassificationLabels(Filter):
             self.logger().warning("No JSON file with label corrections provided, no correction possible!")
         else:
             self._correction = dict()
-            path = self.session.expand_placeholders(self.label_correction)
+            path = self.session.expand_variables(self.label_correction)
             self.logger().info("Loading correction file: %s" % path)
             with open(path, "r") as fp:
                 probs = json.load(fp)

@@ -33,7 +33,7 @@ class AreaHistogramWriter(StreamWriter, VariableSupporter):
                  normalized: bool = False, all_label: str = None,
                  logger_name: str = None, logging_level: str = LOGGING_WARNING):
         """
-        Initializes the reader.
+        Initializes the writer.
 
         :param output_file: the file to write the histogram to; uses stdout if omitted
         :type output_file: str

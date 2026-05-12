@@ -39,7 +39,7 @@ class LabelDistributionWriter(StreamWriter, VariableSupporter):
                  label_key: str = LABEL_KEY, output_type: str = None,
                  logger_name: str = None, logging_level: str = LOGGING_WARNING):
         """
-        Initializes the reader.
+        Initializes the writer.
 
         :param output_file: the output file to save the label distribution to
         :type output_file: str

@@ -30,7 +30,7 @@ class ContourAreasWriter(ImageAndAnnotationWriter, VariableSupporter):
                  output_file: str = None, output_format: str = OUTPUT_FORMAT_CSV,
                  logger_name: str = None, logging_level: str = LOGGING_WARNING):
         """
-        Initializes the reader.
+        Initializes the writer.
 
         :param min_area: the minimum area for the contours
         :type min_area: float

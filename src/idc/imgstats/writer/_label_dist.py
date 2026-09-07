@@ -150,14 +150,14 @@ class LabelDistributionWriter(StreamWriter, VariableSupporter):
         """
         if use_stdout:
             for k in keys:
-                if self.output_type:
+                if self.output_type == OUTPUT_TYPE_PERCENTAGES:
                     print("%s: %f" % (k, dist[k]))
                 else:
                     print("%s: %d" % (k, dist[k]))
         else:
             with open(expand_variables(self.output_file), "w") as f:
                 for k in keys:
-                    if self.output_type:
+                    if self.output_type == OUTPUT_TYPE_PERCENTAGES:
                         f.write("%s: %f" % (k, dist[k]))
                     else:
                         f.write("%s: %d" % (k, dist[k]))
@@ -181,7 +181,7 @@ class LabelDistributionWriter(StreamWriter, VariableSupporter):
             f = open(expand_variables(self.output_file), "w")
             writer = csv.writer(f)
 
-        writer.writerow(["Label", "Percent" if self.output_type else "Count"])
+        writer.writerow(["Label", "Percent" if (self.output_type == OUTPUT_TYPE_PERCENTAGES) else "Count"])
         for k in keys:
             writer.writerow([k, dist[k]])
 

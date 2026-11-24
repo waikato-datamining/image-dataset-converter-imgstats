@@ -14,6 +14,7 @@ Changelog
 - using `seppl.variables` now
 - added the `object-calculations` writer for performing basic calculations on object detection annotations
 - fixed output type handling in `label-dist` writer
+- added `pixel-histogram` writer that generates CSV with histogram(s) per image (r/g/b or g)
 
 
 0.1.0 (2025-10-31)

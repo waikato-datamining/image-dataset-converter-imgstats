@@ -8,3 +8,4 @@
 * [label-dist](label-dist.md)
 * [object-calculations](object-calculations.md)
 * [pixel-count](pixel-count.md)
+* [pixel-histogram](pixel-histogram.md)
